@@ -10,11 +10,27 @@ from Grid import Grid
 # 
 class PlayerAI(BaseAI):
 
+    def minimax(self, depth=0, maximizing_player=True):
+        # This means the depth is too deep
+        # In place of using the algo in the doc
+        if depth > self.max_depth:
+            # Return early
+            return 0
+
+        choice_1 = self.minimax(depth+1, maximizing_player)
+        choice_2 = 0
+        if maximizing_player == True:
+            return max(choice_1, choice_2)
+        return min(choice_1, choice_2)
+
+
+
     def __init__(self) -> None:
         # You may choose to add attributes to your player - up to you!
         super().__init__()
         self.pos = None
         self.player_num = None
+        self.max_depth = 5
     
     def getPosition(self):
         return self.pos
@@ -29,6 +45,7 @@ class PlayerAI(BaseAI):
         self.player_num = num
 
     def getMove(self, grid: Grid) -> tuple:
+        return grid.getAvailableCells()
         """ 
         YOUR CODE GOES HERE
 
@@ -58,6 +75,7 @@ class PlayerAI(BaseAI):
         You may adjust the input variables as you wish (though it is not necessary). Output has to be (x,y) coordinates.
         
         """
+        return grid.getAvailableCells()[0]
         pass
         
 
