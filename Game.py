@@ -7,12 +7,12 @@ from test_players.EasyAI import EasyAI
 from Utils import *
 import time
 
-from test_players.MediumAI import MediumAI
+from test_players.EasyAI import EasyAI as MediumAI 
 
 PLAYER_TURN, COMPUTER_TURN = 1,2
 
 # Time Limit Before Losing
-timeLimit = 5.0
+timeLimit = .01
 allowance = 0.05
 
 class Game():
@@ -228,7 +228,7 @@ class Game():
 
 def main():
 
-    playerAI = None # change this to PlayerAI() to test your player!
+    playerAI = PlayerAI() # change this to PlayerAI() to test your player!
     computerAI = EasyAI() # change this to a more sophisticated player you've coded
     displayer = Displayer()
     game = Game(playerAI = playerAI, computerAI = computerAI, N = 7, displayer=displayer)
