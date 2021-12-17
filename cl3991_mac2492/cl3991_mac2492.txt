@@ -1,0 +1,3 @@
+We both contributed equally to the Squid game project. 
+
+We split up the work on the getMove() and getTrap() functions and defined the heuristics together.

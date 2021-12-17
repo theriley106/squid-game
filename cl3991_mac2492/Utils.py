@@ -18,10 +18,11 @@ class StateInfo:
                 return 3 - self.player
 
         def getOpposingMoves(self):
-                return self.state.get_neighbors(self.state.find(self.opposing_player()), True)
+                x = self.state.get_neighbors(self.state.find(self.opposing_player()), True)
+                return [r for r in x if r != self.state.find(self.player) and r != self.state.find(self.opposing_player())]
 
         def getNumNeighborsMoves(self):
-                return self.getOpposingMoves()
+                return len(self.getOpposingMoves())
 
         def getNumMoves(self):
                 return self.state.get_neighbors(self.state.find(self.player()), True)
@@ -31,14 +32,19 @@ class StateInfo:
         def get_score(self, player, opponent):
                 if self.score == None:
                         possible_moves = 0
+                        opp_moves = 0
 
                         for val in self.state.get_neighbors(self.state.find(player), True):
                                 possible_moves += len(self.state.get_neighbors(val, True))
 
                         for val in self.state.get_neighbors(self.state.find(opponent), True):
-                                possible_moves -= len(self.state.get_neighbors(val, True))
-
-                        self.score = possible_moves
+                                opp_moves += len(self.state.get_neighbors(val, True))
+                        # opp_moves *
+                        c = manhattan_distance(self.state.find(player), self.state.find(3-player))
+                        
+                        # input(str(self.state.find(2), str(self.state)))
+                        # input(self.state.find(1))
+                        self.score = opp_moves - possible_moves - c
                 return self.score
 
 def heuristics(state, player, opponent):
@@ -68,3 +74,24 @@ def possible_states(state, player):
         return allStates
 
 
+
+def possible_traps_to_throw(state, player):
+        # player is either player 1 or 2
+        # state is the grid
+        state = state.state
+        allStates = []
+        #input(player)
+        opponent = 3-player
+        # my_x, my_y = state.find(player)
+        op_x, op_y = state.find(opponent)
+        # all neighbords
+        #input(my_x)
+        #input(my_y)
+        for x, y in state.get_neighbors((op_x, op_y), True):
+                cloned_state = state.clone()
+                # set to 0
+                # cloned_state.setCellValue((op_x, op_y), 0)
+                # set to the id of the player
+                cloned_state.setCellValue((x, y), player)
+                allStates.append(StateInfo(cloned_state, move=(x, y), player=player))
+        return allStates
